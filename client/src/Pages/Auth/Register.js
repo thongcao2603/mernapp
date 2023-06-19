@@ -1,8 +1,9 @@
 import { useState } from "react";
 import Layout from "../../Components/Layout/Layout";
-import { toast } from "react-toastify";
+import toast, { Toaster } from "react-hot-toast";
 import axios from "../../config/axios";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import AuthStyles from "../../styles/AuthStyles.css";
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -22,24 +23,22 @@ const Register = () => {
         address,
         answer,
       });
-      if (response?.success) {
+      if (response && response?.success) {
         toast.success(response.message);
         navigate("/login");
       } else {
         toast.error(response.message);
       }
     } catch (error) {
-      console.log(error);
       toast.error("Something went wrong");
     }
   };
   return (
     <Layout title="Register- Ecommerce App">
-      <div className="register">
-        <h1>Register Page</h1>
+      <div className="form-container" style={{ minHeight: "90vh" }}>
+        <h1 className="title">Register Page</h1>
         <form onSubmit={handleSubmit}>
-          <div className="form-group mb-3">
-            <label htmlFor="exampleInputName">Name</label>
+          <div className=" mb-3">
             <input
               type="text"
               value={name}
@@ -50,8 +49,7 @@ const Register = () => {
               required
             />
           </div>
-          <div className="form-group mb-3">
-            <label htmlFor="exampleInputEmail1">Email address</label>
+          <div className=" mb-3">
             <input
               type="email"
               value={email}
@@ -62,8 +60,7 @@ const Register = () => {
               required
             />
           </div>
-          <div className="form-group mb-3">
-            <label htmlFor="exampleInputPassword1">Password</label>
+          <div className=" mb-3">
             <input
               type="password"
               value={password}
@@ -74,8 +71,7 @@ const Register = () => {
               required
             />
           </div>
-          <div className="form-group mb-3">
-            <label htmlFor="exampleInputPassword1">Phone</label>
+          <div className=" mb-3">
             <input
               type="text"
               value={phone}
@@ -85,8 +81,7 @@ const Register = () => {
               placeholder="Enter your phone"
             />
           </div>
-          <div className="form-group mb-3">
-            <label htmlFor="exampleInputPassword1">Address</label>
+          <div className="mb-3">
             <input
               type="text"
               value={address}
@@ -96,8 +91,7 @@ const Register = () => {
               placeholder="Enter address"
             />
           </div>
-          <div className="form-group mb-3">
-            <label htmlFor="exampleInputPassword1">Answer</label>
+          <div className=" mb-3">
             <input
               type="text"
               value={answer}

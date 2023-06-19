@@ -1,4 +1,4 @@
-import { hashPassword } from "../utils/auth";
+import { hashPassword, comparePassword } from "../utils/auth";
 import JWT from "jsonwebtoken";
 import userModel from "../models/userModel";
 
