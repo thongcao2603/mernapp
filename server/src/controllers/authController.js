@@ -7,7 +7,7 @@ const registerController = async (req, res) => {
     const { name, email, password, phone, address, answer } = req.body;
 
     if (!name) {
-      return res.json({ error: "Name is Required" });
+      return res.json({ message: "Name is Required" });
     }
     if (!email) {
       return res.json({ message: "Email is Required" });
