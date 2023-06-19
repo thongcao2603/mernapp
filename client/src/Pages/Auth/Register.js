@@ -79,6 +79,7 @@ const Register = () => {
               className="form-control"
               id="exampleInputPassword1"
               placeholder="Enter your phone"
+              required
             />
           </div>
           <div className="mb-3">
@@ -89,6 +90,7 @@ const Register = () => {
               className="form-control"
               id="exampleInputPassword1"
               placeholder="Enter address"
+              required
             />
           </div>
           <div className=" mb-3">
@@ -98,12 +100,13 @@ const Register = () => {
               onChange={(e) => setAnswer(e.target.value)}
               className="form-control"
               id="exampleInputPassword1"
-              placeholder="Enter answer"
+              placeholder="What is your favorite sports"
+              required
             />
           </div>
 
           <button type="submit" className="btn btn-primary">
-            Submit
+            Register
           </button>
         </form>
       </div>
