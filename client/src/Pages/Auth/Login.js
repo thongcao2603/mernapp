@@ -3,16 +3,25 @@ import Layout from "../../Components/Layout/Layout";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "../../config/axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/auth";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const [auth, setAuth] = useAuth();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post(`auth/login`, { email, password });
       if (response && response?.success) {
         toast.success(response.message);
+
+        setAuth({
+          ...auth,
+          user: response.user,
+          token: response.token,
+        });
+        localStorage.setItem("auth", JSON.stringify(response));
         navigate("/");
       } else {
         toast.error(response.message);
