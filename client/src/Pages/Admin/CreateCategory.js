@@ -49,6 +49,21 @@ const CreateCategory = () => {
     }
   };
 
+  //delete cat
+  const handleDelete = async (pId) => {
+    try {
+      const response = await axios.delete(`/category/delete-category/${pId}`);
+      if (response?.success) {
+        toast.success("Deleted successfully");
+        getAllCategory();
+      } else {
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      toast.error("Something went wrong");
+    }
+  };
+
   //getAll cat
   const getAllCategory = async () => {
     try {
@@ -105,7 +120,10 @@ const CreateCategory = () => {
                             >
                               Edit
                             </button>
-                            <button className="btn btn-danger ms-2">
+                            <button
+                              className="btn btn-danger ms-2"
+                              onClick={() => handleDelete(cat._id)}
+                            >
                               Delete
                             </button>
                           </td>
