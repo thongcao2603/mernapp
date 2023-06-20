@@ -1,4 +1,5 @@
 import express from "express";
+import formidable from "express-formidable";
 import {
   createProductController,
   getProductController,
@@ -16,7 +17,13 @@ import { isAdmin, requireSignIn } from "../middlewares/authMiddleware";
 
 const router = express.Router();
 
-router.post("/create-product", requireSignIn, isAdmin, createProductController);
+router.post(
+  "/create-product",
+  requireSignIn,
+  isAdmin,
+  formidable(),
+  createProductController
+);
 router.get("/get-product", getProductController);
 
 router.get("/get-product/:slug", getSingleProductController);
