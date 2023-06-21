@@ -3,6 +3,7 @@ import { GiShoppingBag } from "react-icons/gi";
 import { useAuth } from "../../context/auth";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import SearchInput from "../Form/SearchInput";
 const Header = () => {
   const [auth, setAuth] = useAuth();
   const handleLogout = () => {
@@ -35,6 +36,7 @@ const Header = () => {
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav mr-auto ms-auto">
+              <SearchInput />
               <li className="nav-item">
                 <NavLink to="/" className="nav-link" href="#">
                   Home
