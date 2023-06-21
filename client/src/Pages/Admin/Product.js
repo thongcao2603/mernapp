@@ -9,7 +9,6 @@ const Products = () => {
   const getAllProducts = async () => {
     try {
       const response = await axios.get(`/product/get-product`);
-      console.log(response);
       if (response?.success) {
         setProducts(response.products);
       }

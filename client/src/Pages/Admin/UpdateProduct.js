@@ -23,7 +23,6 @@ const UpdateProduct = () => {
   const getSingleProduct = async () => {
     try {
       const response = await axios.get(`/product/get-product/${params.slug}`);
-      console.log(response);
       setName(response.product.name);
       setId(response.product._id);
       setDescription(response.product.description);
@@ -77,7 +76,21 @@ const UpdateProduct = () => {
       toast.error("Something went wrong");
     }
   };
-  const handleDelete = async () => {};
+  const handleDelete = async () => {
+    try {
+      let answer = window.prompt("Are you sure want to delete this product?");
+      if (!answer) return;
+      const response = await axios.delete(`/product/delete-product/${id}`);
+      if (response?.success) {
+        toast.success("Product deleted successfully");
+        navigate("/dashboard/admin/products");
+      } else {
+        toast.error(response?.message);
+      }
+    } catch (error) {
+      toast.error("Something went wrong");
+    }
+  };
 
   return (
     <Layout title={"Dashboard- Create Category"}>
@@ -195,7 +208,7 @@ const UpdateProduct = () => {
                 <button className="btn btn-primary" onClick={handleUpdate}>
                   Update Product
                 </button>
-                <button className="btn btn-danger" onClick={handleDelete}>
+                <button className="btn btn-danger m-3" onClick={handleDelete}>
                   Delete Product
                 </button>
               </div>
