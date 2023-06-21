@@ -4,6 +4,7 @@ import { useAuth } from "../context/auth";
 import axios from "../config/axios";
 import { Link } from "react-router-dom";
 import { Checkbox, Radio } from "antd";
+import { AiOutlineReload } from "react-icons/ai";
 import Price, { Prices } from "../Components/Price";
 const HomePage = () => {
   const [auth, setAuth] = useAuth();
@@ -11,6 +12,18 @@ const HomePage = () => {
   const [categories, setCategories] = useState([]);
   const [checked, setChecked] = useState([]);
   const [radio, setRadio] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+
+  const getTotal = async () => {
+    try {
+      const response = await axios.get("/product/product-count");
+      setTotal(response?.total);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const getAllCategory = async () => {
     try {
@@ -20,16 +33,35 @@ const HomePage = () => {
       console.log(error);
     }
   };
+  useEffect(() => {
+    if (page === 1) return;
+    loadMore();
+  }, [page]);
+  const loadMore = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`/product/product-list/${page}`);
+      setLoading(false);
+      setProducts([...products, ...response?.products]);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     getAllCategory();
+    getTotal();
   }, []);
 
   const getAllProduct = async () => {
     try {
-      const response = await axios.get(`/product/get-product`);
+      setLoading(true);
+      const response = await axios.get(`/product/product-list/${page}`);
+      setLoading(false);
       setProducts(response.products);
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
@@ -144,6 +176,25 @@ const HomePage = () => {
                 </>
               );
             })}
+          </div>
+          <div className="m-2 p-3">
+            {products && products.length <= total && (
+              <button
+                className="btn loadmore"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setPage(page + 1);
+                }}
+              >
+                {loading ? (
+                  "Loading..."
+                ) : (
+                  <>
+                    Loadmore <AiOutlineReload />
+                  </>
+                )}
+              </button>
+            )}
           </div>
         </div>
       </div>
