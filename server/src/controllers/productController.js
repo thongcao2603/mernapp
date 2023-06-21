@@ -164,14 +164,14 @@ const updateProductController = async (req, res) => {
       products.photo.contentType = photo.type;
     }
     await products.save();
-    res.status(201).send({
+    res.status(201).json({
       success: true,
       message: "Product Updated Successfully",
       products,
     });
   } catch (error) {
     console.log(error);
-    res.status(500).send({
+    res.status(500).json({
       success: false,
       error,
       message: "Error in Updte product",

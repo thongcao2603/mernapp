@@ -12,6 +12,7 @@ import {
   searchProductController,
   realtedProductController,
   productCategoryController,
+  updateProductController,
 } from "../controllers/productController";
 import { isAdmin, requireSignIn } from "../middlewares/authMiddleware";
 
@@ -23,6 +24,14 @@ router.post(
   isAdmin,
   formidable(),
   createProductController
+);
+
+router.put(
+  "/update-product/:pid",
+  requireSignIn,
+  isAdmin,
+  formidable(),
+  updateProductController
 );
 router.get("/get-product", getProductController);
 
