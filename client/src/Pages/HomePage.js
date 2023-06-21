@@ -35,8 +35,11 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    getAllProduct();
-  }, []);
+    if (!checked.length || !radio.length) getAllProduct();
+  }, [checked.length, radio.length]);
+  useEffect(() => {
+    if (checked.length || radio.length) filterProduct();
+  }, [checked, radio]);
   const handleFilter = (value, id) => {
     let all = [...checked];
     if (value) {
@@ -45,6 +48,19 @@ const HomePage = () => {
       all = all.filter((c) => c !== id);
     }
     setChecked(all);
+  };
+
+  //get filter product
+  const filterProduct = async () => {
+    try {
+      const response = await axios.post(`/product/product-filters`, {
+        checked,
+        radio,
+      });
+      setProducts(response.products);
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <Layout title={"All Products - Best offers"}>
@@ -72,7 +88,7 @@ const HomePage = () => {
                   <div key={price._id}>
                     <Radio
                       value={price.array}
-                      onChange={(e) => console.log(e.target.value)}
+                      onChange={(e) => setRadio(e.target.value)}
                     >
                       {price.name}
                     </Radio>
@@ -81,6 +97,14 @@ const HomePage = () => {
                 );
               })}
             </Radio.Group>
+          </div>
+          <div className="d-flex flex-column">
+            <button
+              className="btn btn-danger"
+              onClick={() => window.location.reload()}
+            >
+              RESET FILTER
+            </button>
           </div>
         </div>
         <div className="col-md-9">
@@ -103,8 +127,11 @@ const HomePage = () => {
                         alt={product?.name}
                       />
                       <div className="card-body">
-                        <h5 className="card-title">{product.name}</h5>
-                        <p className="card-text">{product.description}</p>
+                        <h5 className="card-title">{product?.name}</h5>
+                        <p className="card-text">
+                          {product?.description.substring(0, 30)}...
+                        </p>
+                        <p className="card-text">${product?.price}</p>
                         <button className="btn btn-primary ">
                           More details
                         </button>
